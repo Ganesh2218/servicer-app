@@ -1,0 +1,34 @@
+Analyzing Servicer...                                           
+
+   info - 'desiredAccuracy' is deprecated and shouldn't be used. use settings parameter with AndroidSettings, AppleSettings, WebSettings, or LocationSettings - lib\core\utils\location_service.dart:27:7 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\app_text.dart:13:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\app_text_field.dart:14:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\loading_widget.dart:8:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\primary_button.dart:13:9 - use_super_parameters
+   info - Parameters ''id', 'chatId', 'senderId', 'content', and 'timestamp'' could be super parameters - lib\data\models\chat_message_model.dart:5:3 - use_super_parameters
+   info - Parameters ''id', 'requestId', 'providerId', 'message', 'timestamp', and 'price'' could be super parameters - lib\data\models\response_model.dart:5:3 - use_super_parameters
+   info - Parameters ''id', 'title', 'description', 'category', 'mediaUrls', 'latitude', 'longitude', 'createdBy', 'timestamp', and 'budget'' could be super parameters - lib\data\models\service_request_model.dart:5:3 - use_super_parameters
+   info - Parameters ''id', 'name', 'email', 'role', 'rating', 'latitude', and 'longitude'' could be super parameters - lib\data\models\user_model.dart:4:3 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\main.dart:30:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\auth\login_screen.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\auth\role_selection_screen.dart:10:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\auth\role_selection_screen.dart:90:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\auth\role_selection_screen.dart:102:77 - deprecated_member_use
+warning - Unused import: 'package:get/get.dart' - lib\presentation\screens\auth\splash_screen.dart:2:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\auth\splash_screen.dart:8:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\chat\chat_detail_screen.dart:13:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat\chat_detail_screen.dart:91:69 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat\chat_detail_screen.dart:107:41 - deprecated_member_use
+warning - Unused import: 'dart:io' - lib\presentation\screens\customer\create_request_screen.dart:3:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\customer\create_request_screen.dart:12:9 - use_super_parameters
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\screens\customer\create_request_screen.dart:85:19 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\customer\customer_dashboard.dart:10:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\customer\customer_dashboard.dart:39:81 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\customer\customer_dashboard.dart:71:60 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\customer\rating_dialog.dart:14:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\provider\provider_dashboard.dart:11:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\provider\provider_dashboard.dart:39:83 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\provider\provider_dashboard.dart:73:62 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\provider\request_detail_screen.dart:14:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\provider\request_detail_screen.dart:69:52 - deprecated_member_use
+

@@ -1,0 +1,19 @@
+﻿Analyzing Servicer...                                           
+
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\app_text.dart:13:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\app_text_field.dart:14:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\loading_widget.dart:8:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\primary_button.dart:13:9 - use_super_parameters
+   info - Parameters ''id', 'chatId', 'senderId', 'content', and 'timestamp'' could be super parameters - lib\data\models\chat_message_model.dart:5:3 - use_super_parameters
+   info - Parameters ''id', 'requestId', 'providerId', 'message', 'timestamp', and 'price'' could be super parameters - lib\data\models\response_model.dart:5:3 - use_super_parameters
+   info - Parameters ''id', 'title', 'description', 'category', 'mediaUrls', 'latitude', 'longitude', 'createdBy', 'timestamp', and 'budget'' could be super parameters - lib\data\models\service_request_model.dart:5:3 - use_super_parameters
+   info - Parameters ''id', 'requestId', 'providerId', 'providerName', 'providerProfileImage', 'message', 'price', 'timestamp', and 'status'' could be super parameters - lib\data\models\service_response_model.dart:4:3 - use_super_parameters
+   info - Parameters ''id', 'name', 'email', 'role', 'rating', 'latitude', 'longitude', and 'profileImage'' could be super parameters - lib\data\models\user_model.dart:4:3 - use_super_parameters
+   info - Empty catch block - lib\data\repositories\auth_repository_impl.dart:97:17 - empty_catches
+   info - Use interpolation to compose strings and values - lib\data\repositories\storage_repository_impl.dart:24:26 - prefer_interpolation_to_compose_strings
+   info - Parameter 'key' could be a super parameter - lib\main.dart:35:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\auth\splash_screen.dart:7:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\customer\rating_dialog.dart:14:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\main_screen.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\screens\marketplace_screen.dart:9:9 - use_super_parameters
+
