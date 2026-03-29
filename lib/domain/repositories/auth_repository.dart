@@ -20,4 +20,6 @@ abstract class AuthRepository {
     String? name,
     String? profileImage,
   });
+
+  Future<UserEntity?> getUserById(String uid);
 }

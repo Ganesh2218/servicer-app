@@ -52,7 +52,12 @@ class ServicerApp extends StatelessWidget {
           centerTitle: true,
           elevation: 0,
         ),
-        fontFamily: 'Inter', // Add font to pubspec if desired later
+        fontFamily: 'Inter',
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(fontWeight: FontWeight.w600),
+          bodyLarge: TextStyle(fontWeight: FontWeight.normal),
+        ),
       ),
       initialRoute: Routes.splash,
       initialBinding: AuthBinding(),

@@ -29,6 +29,7 @@ class ServiceRequestController extends GetxController {
   var pickedFiles = <File>[].obs;
   var isLoading = false.obs;
   var address = 'Fetching location...'.obs;
+  var selectedPricingType = 'completion'.obs; // 'daily', 'monthly', 'completion'
 
   double? latitude;
   double? longitude;
@@ -124,8 +125,6 @@ class ServiceRequestController extends GetxController {
         );
       }
 
-      print("Address==> ${address.value}");
-
       // 2. Create Request Entity
       final request = ServiceRequestEntity(
         id: '',
@@ -139,6 +138,7 @@ class ServiceRequestController extends GetxController {
         createdBy: userId,
         timestamp: DateTime.now(),
         budget: double.tryParse(budgetController.text.trim()),
+        pricingType: selectedPricingType.value,
       );
 
       // 3. Save to Firestore

@@ -10,6 +10,7 @@ class ServiceRequestEntity {
   final String createdBy; // User ID
   final DateTime timestamp;
   final double? budget;
+  final String pricingType; // 'daily', 'monthly', 'completion'
 
   ServiceRequestEntity({
     required this.id,
@@ -23,5 +24,6 @@ class ServiceRequestEntity {
     required this.createdBy,
     required this.timestamp,
     this.budget,
+    required this.pricingType,
   });
 }

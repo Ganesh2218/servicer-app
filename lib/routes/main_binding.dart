@@ -12,7 +12,6 @@ import '../domain/repositories/service_response_repository.dart';
 import '../data/repositories/service_request_repository_impl.dart';
 import '../data/repositories/storage_repository_impl.dart';
 import '../data/repositories/service_response_repository_impl.dart';
-import '../presentation/controllers/offer_controller.dart';
 
 class MainNavigationBinding extends Bindings {
   @override
@@ -27,10 +26,9 @@ class MainNavigationBinding extends Bindings {
     Get.lazyPut<ServiceResponseRepository>(() => ServiceResponseRepositoryImpl());
 
     // Controllers
-    Get.lazyPut<MarketplaceController>(() => MarketplaceController(Get.find()), fenix: true);
+    Get.lazyPut<MarketplaceController>(() => MarketplaceController(Get.find(), Get.find()), fenix: true);
     Get.lazyPut<ServiceRequestController>(() => ServiceRequestController(Get.find(), Get.find()), fenix: true);
     Get.lazyPut<MyServicesController>(() => MyServicesController(Get.find()), fenix: true);
     Get.lazyPut<SettingsController>(() => SettingsController(Get.find(), Get.find()), fenix: true);
-    Get.lazyPut<OfferController>(() => OfferController(Get.find()), fenix: true);
   }
 }

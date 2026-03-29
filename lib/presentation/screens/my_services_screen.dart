@@ -13,7 +13,12 @@ class MyServicesScreen extends GetView<MyServicesController> {
     return Scaffold(
       backgroundColor: AppColors.lightBackground,
       appBar: AppBar(
-        title: const Text('My Services'),
+        title: const AppText(
+          'My Services',
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textLight,
+        ),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
@@ -31,7 +36,7 @@ class MyServicesScreen extends GetView<MyServicesController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.assignment_outlined, size: 80, color: AppColors.grey.withValues(alpha: 0.5)),
+                Icon(Icons.assignment_outlined, size: 80, color: AppColors.grey.withOpacity(0.5)),
                 const SizedBox(height: 16),
                 const AppText('You haven\'t posted any services yet.', color: AppColors.grey),
               ],
@@ -61,7 +66,7 @@ class MyServicesScreen extends GetView<MyServicesController> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: AppColors.accentColor.withValues(alpha: 0.15),
+                              color: AppColors.accentColor.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: AppText(
@@ -135,7 +140,9 @@ class MyServicesScreen extends GetView<MyServicesController> {
   void _confirmDelete(String id) {
     Get.defaultDialog(
       title: 'Delete Service?',
+      titleStyle: const TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.bold, fontSize: 18, color: AppColors.primaryColor),
       middleText: 'Are you sure you want to delete this service request?',
+      middleTextStyle: const TextStyle(fontFamily: 'Inter', fontSize: 14, color: AppColors.textDark),
       textConfirm: 'Delete',
       textCancel: 'Cancel',
       confirmTextColor: Colors.white,

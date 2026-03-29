@@ -9,6 +9,7 @@ class AppText extends StatelessWidget {
   final TextAlign textAlign;
   final int? maxLines;
   final TextOverflow? overflow;
+  final double? height;
 
   const AppText(
     this.text, {
@@ -19,6 +20,7 @@ class AppText extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.maxLines,
     this.overflow,
+    this.height,
   });
 
   @override
@@ -32,7 +34,8 @@ class AppText extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: fontWeight,
         color: color,
-        // fontFamily: 'Inter', // Can be enabled if fonts are added
+        fontFamily: 'Inter',
+        height: height,
       ),
     );
   }

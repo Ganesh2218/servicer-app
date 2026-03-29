@@ -88,7 +88,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           AppText(
                             '${message.timestamp.hour}:${message.timestamp.minute.toString().padLeft(2, '0')}',
                             fontSize: 10,
-                            color: isMe ? AppColors.lightBackground.withValues(alpha: 0.7) : AppColors.grey,
+                            color: isMe ? AppColors.lightBackground.withOpacity(0.7) : AppColors.grey,
                           ),
                         ],
                       ),
@@ -104,7 +104,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               color: AppColors.background,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.grey.withValues(alpha: 0.1),
+                  color: AppColors.grey.withOpacity(0.1),
                   blurRadius: 10,
                   offset: const Offset(0, -5),
                 )
@@ -118,6 +118,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       hintText: 'Type a message...',
                       controller: _messageController,
                       maxLines: 1,
+                      borderRadius: 25,
+                      fillColor: AppColors.lightBackground,
+                      borderColor: AppColors.grey.withOpacity(0.2),
                     ),
                   ),
                   const SizedBox(width: 8),

@@ -82,6 +82,7 @@ class _RatingDialogState extends State<RatingDialog> {
             ),
             const SizedBox(height: 16),
             AppTextField(
+              label: 'Review',
               hintText: 'Write your review here...',
               controller: _reviewController,
               maxLines: 3,

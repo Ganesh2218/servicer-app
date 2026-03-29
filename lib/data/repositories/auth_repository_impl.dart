@@ -135,4 +135,7 @@ class AuthRepositoryImpl implements AuthRepository {
       throw Exception("Failed to update profile: $e");
     }
   }
+
+  @override
+  Future<UserEntity?> getUserById(String uid) => _getUserFromFirestore(uid);
 }

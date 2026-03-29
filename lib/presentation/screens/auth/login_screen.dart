@@ -87,7 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 48),
                 if (isSignUp) ...[
                   AppTextField(
-                    hintText: 'Full Name',
+                    label: 'Full Name',
+                    hintText: 'Enter your full name',
                     controller: nameController,
                     prefixIcon: const Icon(
                       Icons.person_outline,
@@ -97,10 +98,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         ? AppStrings.requiredField
                         : null,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
                 ],
                 AppTextField(
-                  hintText: 'Email Address',
+                  label: 'Email Address',
+                  hintText: 'Enter your email',
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: const Icon(
@@ -115,9 +117,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 AppTextField(
-                  hintText: 'Password',
+                  label: 'Password',
+                  hintText: 'Enter your password',
                   controller: passwordController,
                   obscureText: true,
                   prefixIcon: const Icon(
@@ -142,14 +145,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     googleAPIKey: AppConstants.mapKey,
                     focusNode: _locationFocusNode,
                     inputDecoration: InputDecoration(
+                      labelText: "Location",
+                      labelStyle: const TextStyle(color: AppColors.grey, fontFamily: 'Inter', fontSize: 14),
                       hintText: "Search Location...",
-                      hintStyle: const TextStyle(color: AppColors.grey),
+                      hintStyle: const TextStyle(color: AppColors.grey, fontFamily: 'Inter', fontSize: 14),
                       prefixIcon: const Icon(Icons.location_on_outlined, color: AppColors.grey),
                       filled: true,
                       fillColor: AppColors.lightBackground,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(color: AppColors.grey.withOpacity(0.3)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(color: AppColors.grey.withOpacity(0.3)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
                       ),
                     ),
                     debounceTime: 800,
@@ -181,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             const Icon(Icons.location_on, color: AppColors.grey),
                             const SizedBox(width: 7),
-                            Expanded(child: Text(prediction.description ?? "")),
+                            Expanded(child: AppText(prediction.description ?? "", fontSize: 14)),
                           ],
                         ),
                       );

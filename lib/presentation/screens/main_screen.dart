@@ -34,6 +34,8 @@ class MainScreen extends GetView<MainNavigationController> {
             showUnselectedLabels: true,
             selectedFontSize: 12,
             unselectedFontSize: 12,
+            selectedLabelStyle: const TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.bold),
+            unselectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),

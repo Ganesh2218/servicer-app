@@ -16,7 +16,13 @@ class SettingsScreen extends GetView<SettingsController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const AppText(
+          'Settings',
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textLight,
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () => controller.logout(),
@@ -69,7 +75,8 @@ class SettingsScreen extends GetView<SettingsController> {
             
             // Name Field
             AppTextField(
-              hintText: 'Full Name',
+              label: 'Full Name',
+              hintText: 'Enter your name',
               controller: controller.nameController,
               prefixIcon: const Icon(Icons.person_outline),
             ),
@@ -79,7 +86,7 @@ class SettingsScreen extends GetView<SettingsController> {
             Obx(() => Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.lightGrey.withValues(alpha: 0.3),
+                color: AppColors.lightGrey.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -106,7 +113,7 @@ class SettingsScreen extends GetView<SettingsController> {
             Obx(() => Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.lightGrey.withValues(alpha: 0.3),
+                color: AppColors.lightGrey.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(

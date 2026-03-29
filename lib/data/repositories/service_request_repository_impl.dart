@@ -21,6 +21,7 @@ class ServiceRequestRepositoryImpl implements ServiceRequestRepository {
       createdBy: request.createdBy,
       timestamp: request.timestamp,
       budget: request.budget,
+      pricingType: request.pricingType,
     );
 
     final docRef = await _firestore
@@ -94,6 +95,7 @@ class ServiceRequestRepositoryImpl implements ServiceRequestRepository {
       createdBy: request.createdBy,
       timestamp: request.timestamp,
       budget: request.budget,
+      pricingType: request.pricingType,
     );
     await _firestore
         .collection('service_requests')

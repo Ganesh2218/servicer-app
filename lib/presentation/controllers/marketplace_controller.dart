@@ -1,17 +1,23 @@
 import 'package:get/get.dart';
 import '../../domain/entities/service_request_entity.dart';
+import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/service_request_repository.dart';
+import '../../domain/repositories/auth_repository.dart';
 import '../../core/utils/location_service.dart';
 import '../../core/utils/app_snackbar.dart';
 
 class MarketplaceController extends GetxController {
   final ServiceRequestRepository _repository;
+  final AuthRepository _authRepository;
 
-  MarketplaceController(this._repository);
+  MarketplaceController(this._repository, this._authRepository);
 
   final RxList<ServiceRequestEntity> allRequests = <ServiceRequestEntity>[].obs;
   final RxList<ServiceRequestEntity> filteredRequests = <ServiceRequestEntity>[].obs;
   final RxBool isLoading = false.obs;
+
+  /// Cache of fetched user profiles keyed by user ID.
+  final RxMap<String, UserEntity> userCache = <String, UserEntity>{}.obs;
 
   // Search, Filter, Sort State
   final RxString searchQuery = ''.obs;
@@ -35,7 +41,7 @@ class MarketplaceController extends GetxController {
   void onInit() {
     super.onInit();
     fetchRequests();
-    
+
     // Listen for changes in search, filter, sort
     debounce(searchQuery, (_) => _applyFilters(), time: const Duration(milliseconds: 500));
     ever(selectedCategory, (_) => _applyFilters());
@@ -59,6 +65,25 @@ class MarketplaceController extends GetxController {
       }
       allRequests.assignAll(fetched);
       _applyFilters();
+
+      // Batch-fetch user info for all unique creator IDs (skip already cached)
+      final uncachedIds = fetched
+          .map((r) => r.createdBy)
+          .toSet()
+          .where((id) => id.isNotEmpty && !userCache.containsKey(id))
+          .toList();
+
+      if (uncachedIds.isNotEmpty) {
+        final results = await Future.wait(
+          uncachedIds.map((id) => _authRepository.getUserById(id)),
+        );
+        for (var i = 0; i < uncachedIds.length; i++) {
+          final user = results[i];
+          if (user != null) {
+            userCache[uncachedIds[i]] = user;
+          }
+        }
+      }
     } catch (e) {
       AppSnackbar.showError('Something went wrong. Please try again.');
     } finally {
@@ -66,14 +91,17 @@ class MarketplaceController extends GetxController {
     }
   }
 
+  /// Returns the cached [UserEntity] for a given user ID, or null if not yet loaded.
+  UserEntity? getUserForRequest(String userId) => userCache[userId];
+
   void _applyFilters() {
     var result = allRequests.toList();
 
     // Search
     if (searchQuery.isNotEmpty) {
       final query = searchQuery.value.toLowerCase();
-      result = result.where((req) => 
-        req.title.toLowerCase().contains(query) || 
+      result = result.where((req) =>
+        req.title.toLowerCase().contains(query) ||
         req.category.toLowerCase().contains(query)
       ).toList();
     }

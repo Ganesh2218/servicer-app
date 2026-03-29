@@ -14,12 +14,13 @@ class ServiceRequestModel extends ServiceRequestEntity {
     required super.createdBy,
     required super.timestamp,
     super.budget,
+    required super.pricingType,
   });
 
-  factory ServiceRequestModel.fromJson(Map<String, dynamic> json, String documentId) {
+  factory ServiceRequestModel.fromJson(Map<String, dynamic> json, String id) {
     final location = json['location'] as Map<String, dynamic>?;
     return ServiceRequestModel(
-      id: documentId,
+      id: id,
       title: json['title'] ?? '',
       description: json['description'] ?? '',
       category: json['category'] ?? '',
@@ -30,6 +31,7 @@ class ServiceRequestModel extends ServiceRequestEntity {
       createdBy: json['createdBy'] ?? '',
       timestamp: (json['timestamp'] as Timestamp).toDate(),
       budget: (json['budget'] as num?)?.toDouble(),
+      pricingType: json['pricingType'] ?? 'completion',
     );
   }
 
@@ -47,6 +49,7 @@ class ServiceRequestModel extends ServiceRequestEntity {
       'createdBy': createdBy,
       'timestamp': Timestamp.fromDate(timestamp),
       'budget': budget,
+      'pricingType': pricingType,
     };
   }
 }

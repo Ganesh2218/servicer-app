@@ -14,311 +14,411 @@ class CreateServiceRequestScreen extends GetView<ServiceRequestController> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
+      backgroundColor: AppColors.lightBackground,
       appBar: AppBar(
-        title: const Text('Create Service'),
-        automaticallyImplyLeading:
-            false, // Prevents back button in navigation tab
+        title: const AppText(
+          'Create Your Service',
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: AppColors.textLight,
+        ),
         centerTitle: true,
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const AppText(
-                  'Post your job and get responses from nearby providers.',
-                  color: AppColors.grey,
-                  fontSize: 14,
-                ),
-                const SizedBox(height: 24),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(width * 0.05),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// 🔹 Header Info
+            _infoCard(),
 
-                // Title
-                AppTextField(
-                  hintText: 'Job Title (e.g. Fix leaking pipe)',
-                  controller: controller.titleController,
-                  prefixIcon: const Icon(
-                    Icons.title_outlined,
-                    color: AppColors.grey,
-                  ),
-                ),
-                const SizedBox(height: 16),
+            const SizedBox(height: 24),
 
-                // Description
-                AppTextField(
-                  hintText: 'Describe what you need...',
-                  controller: controller.descriptionController,
-                  maxLines: 4,
-                  prefixIcon: const Icon(
-                    Icons.description_outlined,
-                    color: AppColors.grey,
-                  ),
-                ),
-                const SizedBox(height: 16),
+            /// 1️⃣ Service Type
+            _sectionTitle("What service do you provide?"),
+            const SizedBox(height: 10),
+            _buildCategoryDropdown(),
 
-                // Category & Budget Row
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryColor.withValues(alpha: 0.05),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: AppColors.grey.withValues(alpha: 0.2),
-                          ),
-                        ),
-                        child: Obx(
-                          () => DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: controller.selectedCategory.value,
-                              isExpanded: true,
-                              onChanged: (val) =>
-                                  controller.selectedCategory.value = val!,
-                              items: controller.categories.map((cat) {
-                                return DropdownMenuItem(
-                                  value: cat,
-                                  child: Text(cat),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      flex: 1,
-                      child: AppTextField(
-                        hintText: 'Budget',
-                        controller: controller.budgetController,
-                        keyboardType: TextInputType.number,
-                        prefixIcon: const Icon(
-                          Icons.attach_money_outlined,
-                          color: AppColors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-                // Location Section
-                const AppText(
-                  'Location',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: AppColors.grey.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      GooglePlaceAutoCompleteTextField(
-                        textEditingController: controller.locationController,
-                        googleAPIKey: AppConstants.mapKey,
-                        focusNode: controller.locationFocusNode,
-                        inputDecoration: InputDecoration(
-                          hintText: "Search Location...",
-                          hintStyle: const TextStyle(color: AppColors.grey),
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            color: AppColors.grey,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
-                        debounceTime: 800,
-                        itemClick: (Prediction prediction) {
-                          controller.locationController.text =
-                              prediction.description!;
-                          controller.locationFocusNode.unfocus();
+            /// 2️⃣ Service Details
+            _sectionTitle("Service details"),
+            const SizedBox(height: 12),
 
-                          controller.locationController.selection =
-                              TextSelection.fromPosition(
-                                TextPosition(
-                                  offset: prediction.description!.length,
-                                ),
-                              );
-
-                          print(prediction.description!);
-
-                          controller.address.value = prediction.description!;
-                          controller.updateLocationFromPlaceId(
-                            prediction.placeId!,
-                          );
-                        },
-                        seperatedBuilder: const Divider(),
-                        itemBuilder: (context, index, Prediction prediction) {
-                          return Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.location_on,
-                                  color: AppColors.grey,
-                                ),
-                                const SizedBox(width: 7),
-                                Expanded(
-                                  child: Text(prediction.description ?? ""),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      const Divider(height: 1),
-                      ListTile(
-                        onTap: () {
-                          controller.address.value = 'Fetching location...';
-                        },
-                        leading: const Icon(
-                          Icons.my_location,
-                          color: AppColors.primaryColor,
-                        ),
-                        title: Obx(
-                          () => AppText(
-                            controller.address.value,
-                            fontSize: 13,
-                            maxLines: 2,
-                          ),
-                        ),
-                        trailing: const Icon(Icons.chevron_right, size: 20),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // Media Grid
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const AppText(
-                      'Media / Photos',
-                      fontWeight: FontWeight.bold,
-                    ),
-                    TextButton.icon(
-                      onPressed: controller.pickMedia,
-                      icon: const Icon(Icons.add_a_photo, size: 18),
-                      label: const Text('Add'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Obx(
-                  () => controller.pickedFiles.isEmpty
-                      ? Container(
-                          height: 100,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: AppColors.grey.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: AppColors.grey.withValues(alpha: 0.2),
-                              style: BorderStyle.solid,
-                            ),
-                          ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.image_outlined,
-                                color: AppColors.grey,
-                                size: 32,
-                              ),
-                              SizedBox(height: 4),
-                              AppText(
-                                'No images added',
-                                color: AppColors.grey,
-                                fontSize: 12,
-                              ),
-                            ],
-                          ),
-                        )
-                      : SizedBox(
-                          height: 100,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: controller.pickedFiles.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Image.file(
-                                        controller.pickedFiles[index],
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 4,
-                                      right: 4,
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            controller.removeFile(index),
-                                        child: const CircleAvatar(
-                                          radius: 12,
-                                          backgroundColor: Colors.red,
-                                          child: Icon(
-                                            Icons.close,
-                                            size: 14,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                ),
-                const SizedBox(height: 40),
-
-                // Submit Button
-                Obx(
-                  () => PrimaryButton(
-                    'Post Service Request',
-                    isLoading: controller.isLoading.value,
-                    onPressed: controller.createRequest,
-                  ),
-                ),
-                const SizedBox(height: 32),
-              ],
+            AppTextField(
+              label: "Service name",
+              hintText: "e.g. Home Plumbing, AC Repair",
+              controller: controller.titleController,
+              prefixIcon: const Icon(Icons.home_repair_service),
             ),
-          ),
 
-          // Loading Overlay
-          Obx(
-            () => controller.isLoading.value
-                ? Container(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    child: const Center(child: CircularProgressIndicator()),
-                  )
-                : const SizedBox.shrink(),
+            const SizedBox(height: 16),
+
+            AppTextField(
+              label: "Describe your service",
+              hintText: "Explain what you offer to customers",
+              controller: controller.descriptionController,
+              maxLines: 4,
+              prefixIcon: const Icon(Icons.notes),
+            ),
+
+            const SizedBox(height: 24),
+
+            /// 3️⃣ Pricing Type
+            _sectionTitle("How do you charge?"),
+            const SizedBox(height: 12),
+            _pricingSelector(),
+
+            const SizedBox(height: 24),
+
+            /// 4️⃣ Price
+            _sectionTitle("Set your price"),
+            const SizedBox(height: 10),
+
+            Obx(() {
+              String label = "Enter price";
+
+              switch (controller.selectedPricingType.value) {
+                case 'daily':
+                  label = "Price per day";
+                  break;
+                case 'monthly':
+                  label = "Price per month";
+                  break;
+                case 'completion':
+                  label = "Total service price";
+                  break;
+              }
+
+              return AppTextField(
+                hintText: label,
+                controller: controller.budgetController,
+                keyboardType: TextInputType.number,
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.only(left: 12),
+                  child: AppText("₹", fontSize: 20),
+                ),
+              );
+            }),
+
+            const SizedBox(height: 24),
+
+            /// 5️⃣ Location
+            _sectionTitle("Where do you provide service?"),
+            const SizedBox(height: 10),
+            _buildLocationSearch(),
+
+            const SizedBox(height: 24),
+
+            /// 6️⃣ Photos
+            _sectionTitle("Add photos (optional)"),
+            const SizedBox(height: 10),
+            _buildMediaGrid(),
+
+            const SizedBox(height: 30),
+
+            /// Submit
+            Obx(
+              () => PrimaryButton(
+                "Create Service",
+                isLoading: controller.isLoading.value,
+                onPressed: controller.createRequest,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 🔹 Info Card
+  Widget _infoCard() {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.lightbulb_outline, color: AppColors.primaryColor),
+          SizedBox(width: 10),
+          Expanded(
+            child: AppText(
+              "Create your service and start getting customers nearby.",
+              fontSize: 13,
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _sectionTitle(String title) {
+    return AppText(
+      title,
+      fontWeight: FontWeight.w600,
+      fontSize: 16,
+      color: AppColors.textDark,
+    );
+  }
+
+  /// 🔹 Category Dropdown
+  Widget _buildCategoryDropdown() {
+    return Obx(
+      () => DropdownButtonFormField<String>(
+        value: controller.selectedCategory.value,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+        ),
+        hint: const AppText("Select service type"),
+        items: controller.categories
+            .map((e) => DropdownMenuItem(value: e, child: AppText(e)))
+            .toList(),
+        onChanged: (val) => controller.selectedCategory.value = val!,
+      ),
+    );
+  }
+
+  /// 🔹 Pricing Selector
+  Widget _pricingSelector() {
+    return Row(
+      children: [
+        _pricingChip("Daily", "daily"),
+        const SizedBox(width: 8),
+        _pricingChip("Monthly", "monthly"),
+        const SizedBox(width: 8),
+        _pricingChip("One-time", "completion"),
+      ],
+    );
+  }
+
+  Widget _pricingChip(String title, String value) {
+    return Obx(() {
+      final isSelected = controller.selectedPricingType.value == value;
+
+      return Expanded(
+        child: GestureDetector(
+          onTap: () => controller.selectedPricingType.value = value,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.primaryColor : Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.primaryColor),
+            ),
+            child: Center(
+              child: AppText(
+                title,
+                color: isSelected ? Colors.white : AppColors.primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildLocationSearch() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.grey.withOpacity(0.15)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          GooglePlaceAutoCompleteTextField(
+            focusNode: controller.locationFocusNode,
+            textEditingController: controller.locationController,
+            googleAPIKey: AppConstants.mapKey,
+            inputDecoration: InputDecoration(
+              labelText: "Job Location",
+              labelStyle: const TextStyle(
+                color: AppColors.grey,
+                fontFamily: 'Inter',
+                fontSize: 14,
+              ),
+              hintText: "Enter job location...",
+              hintStyle: const TextStyle(color: AppColors.grey, fontSize: 14),
+              prefixIcon: const Icon(
+                Icons.location_on_outlined,
+                color: AppColors.primaryColor,
+                size: 22,
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(color: AppColors.grey.withOpacity(0.3)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(color: AppColors.grey.withOpacity(0.3)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(
+                  color: AppColors.primaryColor,
+                  width: 1.5,
+                ),
+              ),
+            ),
+            debounceTime: 800,
+            itemClick: (Prediction prediction) {
+              controller.locationController.text = prediction.description!;
+              controller.locationFocusNode.unfocus();
+              controller.address.value = prediction.description!;
+              controller.updateLocationFromPlaceId(prediction.placeId!);
+            },
+            seperatedBuilder: const Divider(height: 1),
+            itemBuilder: (context, index, Prediction prediction) {
+              return Container(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: AppColors.grey,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: AppText(
+                        prediction.description ?? "",
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          const Divider(height: 1),
+          ListTile(
+            dense: true,
+            onTap: () {
+              // Trigger fetch or just show what's in controller
+            },
+            leading: const Icon(
+              Icons.my_location,
+              color: AppColors.success,
+              size: 20,
+            ),
+            title: Obx(
+              () => AppText(
+                controller.address.value,
+                fontSize: 13,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.chevron_right,
+              size: 18,
+              color: AppColors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMediaGrid() {
+    return Obx(
+      () => controller.pickedFiles.isEmpty
+          ? GestureDetector(
+              onTap: controller.pickMedia,
+              child: Container(
+                height: 120,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.lightBackground,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: AppColors.grey.withOpacity(0.15),
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.add_photo_alternate_outlined,
+                      color: AppColors.grey,
+                      size: 40,
+                    ),
+                    SizedBox(height: 8),
+                    AppText(
+                      'Upload supporting photos',
+                      color: AppColors.grey,
+                      fontSize: 13,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : SizedBox(
+              height: 120,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.pickedFiles.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.file(
+                            controller.pickedFiles[index],
+                            width: 120,
+                            height: 120,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 6,
+                          right: 6,
+                          child: GestureDetector(
+                            onTap: () => controller.removeFile(index),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.close,
+                                size: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

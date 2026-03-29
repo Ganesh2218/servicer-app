@@ -3,6 +3,7 @@ import 'app_routes.dart';
 import 'auth_binding.dart';
 import 'main_binding.dart';
 import 'service_request_binding.dart';
+import 'request_detail_binding.dart';
 import '../presentation/screens/auth/splash_screen.dart';
 import '../presentation/screens/auth/login_screen.dart';
 
@@ -34,6 +35,7 @@ class AppPages {
       name: Routes.requestDetails,
       page: () =>
           RequestDetailScreen(request: Get.arguments as ServiceRequestEntity),
+      binding: RequestDetailBinding(),
     ),
   ];
 }
