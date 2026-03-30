@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:servicer/core/utils/app_functions.dart';
 import '../controllers/marketplace_controller.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/widgets/app_text.dart';
@@ -30,47 +31,71 @@ class MarketplaceScreen extends GetView<MarketplaceController> {
             child: Column(
               children: [
                 // Search Bar
-                TextField(
-                  onChanged: controller.updateSearch,
-                  style: const TextStyle(fontFamily: 'Inter', fontSize: 14),
-                  decoration: InputDecoration(
-                    hintText: 'Search services...',
-                    hintStyle: const TextStyle(
-                      color: AppColors.grey,
-                      fontFamily: 'Inter',
-                      fontSize: 14,
+                Obx(
+                  () => TextField(
+                    onChanged: controller.updateSearch,
+                    controller: TextEditingController(
+                      text: controller.searchQuery.value,
                     ),
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: AppColors.primaryColor,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.lightBackground,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(
-                        color: AppColors.grey.withOpacity(0.15),
+                    style: const TextStyle(fontFamily: 'Inter', fontSize: 14),
+                    decoration: InputDecoration(
+                      hintText: 'Search services...',
+
+                      hintStyle: const TextStyle(
+                        color: AppColors.grey,
+                        fontFamily: 'Inter',
+                        fontSize: 14,
                       ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(
-                        color: AppColors.grey.withOpacity(0.15),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(
+                      prefixIcon: const Icon(
+                        Icons.search,
                         color: AppColors.primaryColor,
-                        width: 1.5,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          controller.isListening.value
+                              ? Icons.mic
+                              : Icons.mic_none,
+                          color: AppColors.primaryColor,
+                        ),
+                        onPressed: () {
+                          if (controller.isListening.value) {
+                            controller.stopListening();
+                          } else {
+                            controller.startListening();
+                          }
+                          controller.isListening.value =
+                              !controller.isListening.value;
+                        },
+                      ),
+                      filled: true,
+                      fillColor: AppColors.lightBackground,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: AppColors.grey.withOpacity(0.15),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: AppColors.grey.withOpacity(0.15),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: AppColors.primaryColor,
+                          width: 1.5,
+                        ),
                       ),
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 12),
                 // Filter & Sort Row
                 Row(
@@ -247,7 +272,7 @@ class MarketplaceScreen extends GetView<MarketplaceController> {
                     ),
                   ),
                   Text(
-                    _formatDate(request.timestamp),
+                    AppFunctions.formatDate(request.timestamp),
                     style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
                   ),
                 ],
@@ -384,9 +409,5 @@ class MarketplaceScreen extends GetView<MarketplaceController> {
         ),
       ),
     );
-  }
-
-  String _formatDate(DateTime dt) {
-    return '${dt.day}/${dt.month}/${dt.year}';
   }
 }

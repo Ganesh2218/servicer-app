@@ -66,5 +66,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app uses microphone to search services using voice</string>
+
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>This app uses speech recognition for voice search</string>
 </dict>
 </plist>
