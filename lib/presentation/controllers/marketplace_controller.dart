@@ -270,7 +270,7 @@ class MarketplaceController extends GetxController {
     );
   } */
   void startListening() async {
-    FocusManager.instance.primaryFocus?.unfocus(); // 🔥 CLOSE KEYBOARD
+    FocusManager.instance.primaryFocus?.unfocus();
 
     final hasPermission = await requestMicPermission();
     if (!hasPermission) return;

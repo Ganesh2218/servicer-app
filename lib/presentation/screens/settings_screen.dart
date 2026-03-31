@@ -26,7 +26,7 @@ class SettingsScreen extends GetView<SettingsController> {
         actions: [
           IconButton(
             onPressed: () => controller.logout(),
-            icon: const Icon(Icons.logout, color: AppColors.error),
+            icon: const Icon(Icons.logout, color: AppColors.background),
           ),
         ],
       ),
@@ -48,11 +48,17 @@ class SettingsScreen extends GetView<SettingsController> {
                       backgroundImage: selectedImage != null
                           ? FileImage(selectedImage)
                           : (currentUser?.profileImage != null
-                                  ? NetworkImage(currentUser!.profileImage!)
-                                  : null)
-                              as ImageProvider?,
-                      child: (selectedImage == null && currentUser?.profileImage == null)
-                          ? const Icon(Icons.person, size: 60, color: AppColors.grey)
+                                    ? NetworkImage(currentUser!.profileImage!)
+                                    : null)
+                                as ImageProvider?,
+                      child:
+                          (selectedImage == null &&
+                              currentUser?.profileImage == null)
+                          ? const Icon(
+                              Icons.person,
+                              size: 60,
+                              color: AppColors.grey,
+                            )
                           : null,
                     );
                   }),
@@ -64,7 +70,11 @@ class SettingsScreen extends GetView<SettingsController> {
                       child: const CircleAvatar(
                         radius: 18,
                         backgroundColor: AppColors.primaryColor,
-                        child: Icon(Icons.camera_alt, size: 18, color: Colors.white),
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 18,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -72,7 +82,7 @@ class SettingsScreen extends GetView<SettingsController> {
               ),
             ),
             const SizedBox(height: 32),
-            
+
             // Name Field
             AppTextField(
               label: 'Full Name',
@@ -81,68 +91,88 @@ class SettingsScreen extends GetView<SettingsController> {
               prefixIcon: const Icon(Icons.person_outline),
             ),
             const SizedBox(height: 16),
-            
+
             // Role (Display only)
-            Obx(() => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: AppColors.lightGrey.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(12),
+            Obx(
+              () => Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.lightGrey.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.work_outline, color: AppColors.grey),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const AppText(
+                          'User Role',
+                          fontSize: 12,
+                          color: AppColors.grey,
+                        ),
+                        AppText(
+                          authController.currentUser.value?.role ?? 'Unknown',
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              child: Row(
-                children: [
-                  const Icon(Icons.work_outline, color: AppColors.grey),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const AppText('User Role', fontSize: 12, color: AppColors.grey),
-                      AppText(
-                        authController.currentUser.value?.role ?? 'Unknown',
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )),
+            ),
             const SizedBox(height: 16),
-            
+
             // Email (Display only)
-            Obx(() => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: AppColors.lightGrey.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(12),
+            Obx(
+              () => Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.lightGrey.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.email_outlined, color: AppColors.grey),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const AppText(
+                          'Email Address',
+                          fontSize: 12,
+                          color: AppColors.grey,
+                        ),
+                        AppText(
+                          authController.currentUser.value?.email ?? 'Unknown',
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              child: Row(
-                children: [
-                  const Icon(Icons.email_outlined, color: AppColors.grey),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const AppText('Email Address', fontSize: 12, color: AppColors.grey),
-                      AppText(
-                        authController.currentUser.value?.email ?? 'Unknown',
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )),
+            ),
             const SizedBox(height: 32),
-            
+
             // Save Button
-            Obx(() => PrimaryButton(
-              'Save Changes',
-              isLoading: controller.isLoading.value,
-              onPressed: () => controller.updateProfile(),
-            )),
-            
+            Obx(
+              () => PrimaryButton(
+                'Save Changes',
+                isLoading: controller.isLoading.value,
+                onPressed: () => controller.updateProfile(),
+              ),
+            ),
+
             const SizedBox(height: 48),
             // Version Info
             const AppText(

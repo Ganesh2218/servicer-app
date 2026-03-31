@@ -24,13 +24,13 @@ class MyServicesScreen extends GetView<MyServicesController> {
         ),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
+      /* floatingActionButton: FloatingActionButton(
         onPressed: () => Get.find<MainNavigationController>().changeIndex(
           1,
         ), // Go to Create tab
         backgroundColor: AppColors.primaryColor,
         child: const Icon(Icons.add, color: Colors.white),
-      ),
+      ), */
       body: Obx(() {
         if (controller.isLoading.value && controller.myRequests.isEmpty) {
           return const Center(child: CircularProgressIndicator());
@@ -193,6 +193,8 @@ class MyServicesScreen extends GetView<MyServicesController> {
                 ],
               ),
 
+              SizedBox(height: 10),
+
               Row(
                 children: [
                   Spacer(),
@@ -208,8 +210,11 @@ class MyServicesScreen extends GetView<MyServicesController> {
                     ),
                   ),
 
+                  SizedBox(width: 10),
+
                   Expanded(
                     child: PrimaryButton(
+                      backgroundColor: Colors.red,
                       "Delete",
                       onPressed: () {
                         _confirmDelete(request.id);
@@ -227,7 +232,7 @@ class MyServicesScreen extends GetView<MyServicesController> {
                 ],
               ),
 
-              const SizedBox(height: 12),
+              //const SizedBox(height: 12),
             ],
           ),
         ),
